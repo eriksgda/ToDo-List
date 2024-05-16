@@ -1,5 +1,7 @@
 import { FormEvent, useState } from 'react'
 import './App.css'
+import InputTasks from './components/InputTask';
+import Todo from './components/Todo';
 
 export default function App() {
   const [task, setTask] = useState('');
@@ -8,13 +10,17 @@ export default function App() {
   function AddTask(event: FormEvent){
     event.preventDefault();
 
+    if (!task){return;}
+
     setTodoList((oldTodoList) => [...oldTodoList, task]);
+
+    setTask('');
   }
   
   return (
       <form className='container' onSubmit={AddTask}>
         <div className='menu'>
-          <input type="text" placeholder='Digite aqui'
+          <InputTasks type="text" value={task} placeholder='Digite aqui'
           onChange={(event) => setTask(event.target.value)}/>
           <button className='button-add' type='submit'>Adicionar</button>
 
@@ -22,7 +28,7 @@ export default function App() {
         <div className='list'>
           <ul className='total-list'>
             {todoList.map((todo) =>{
-              return <li key={todo}>{todo}</li>
+              return <Todo key={todo}>{todo}</Todo>
             })}
           </ul>
         </div>
